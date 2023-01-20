@@ -1,0 +1,321 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+   
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.table-container {
+  margin: auto;
+  max-width: 1200px;
+  min-height: 100vh;
+  overflow: scroll;
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead tr {
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  height: 1px;
+}
+
+th {
+  font-weight: bold;
+  height: inherit;
+  padding: 0;
+}
+
+th:not(:first-of-type) {
+  border-left: 1px solid #ddd;
+}
+
+th button {
+  background-color: #eee;
+  border: none;
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  height: 100%;
+  margin: 0;
+  min-width: max-content;
+  padding: 0.5rem 1rem;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+th button::after {
+  position: absolute;
+  right: 0.5rem;
+}
+
+th button[data-dir="asc"]::after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpolygon points='0, 0 8,0 4,8 8' fill='%23818688'/%3E%3C/svg%3E");
+}
+
+th button[data-dir="desc"]::after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpolygon points='4 0,8 8,0 8' fill='%23818688'/%3E%3C/svg%3E");
+}
+
+tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+
+footer {
+  background-color: #ffdfb9;
+  margin: 2rem -8px -8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer .heart {
+  color: #dc143c;
+}
+</style>
+
+
+
+<div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+        <th><button id="id">id</button></th>
+          <th><button id="title">title</button></th>
+          <th><button id="Description">Description</button></th>
+          <th><button id="dueDate">dueDate</button></th>
+          <th><button id="priority">priority</button></th>  
+          <th><button id="createdAt">createdAt</button></th>
+          <th><button id="updatedAt">updatedAt</button></th>        
+        </tr>
+      </thead>
+      <tbody id="table-content"></tbody>
+    </table>
+  </div>
+
+
+  
+<script>
+    
+
+    const response1 = {
+       "toDoTasks": [
+          {
+             "name": "Bulbasaur",
+             "type": "Grass",
+             "hp": 45,
+             "attack": 49,
+             "defense": 49,
+             "spAttack": 65,
+             "spDefense": 65,
+             "speed": 45,
+             "total": 318
+          },
+          {
+             "name": "Ivysaur",
+             "type": "Grass",
+             "hp": 60,
+             "attack": 62,
+             "defense": 63,
+             "spAttack": 80,
+             "spDefense": 80,
+             "speed": 60,
+             "total": 405
+          },
+          {
+             "name": "Venusaur",
+             "type": "Grass",
+             "hp": 80,
+             "attack": 82,
+             "defense": 83,
+             "spAttack": 100,
+             "spDefense": 100,
+             "speed": 80,
+             "total": 525
+          },
+          {
+             "name": "Charmander",
+             "type": "Fire",
+             "hp": 39,
+             "attack": 52,
+             "defense": 43,
+             "spAttack": 60,
+             "spDefense": 50,
+             "speed": 65,
+             "total": 309
+          },
+          {
+             "name": "Charmeleon",
+             "type": "Fire",
+             "hp": 58,
+             "attack": 64,
+             "defense": 58,
+             "spAttack": 80,
+             "spDefense": 65,
+             "speed": 80,
+             "total": 405
+          },
+          {
+             "name": "Charizard",
+             "type": "Fire",
+             "hp": 78,
+             "attack": 84,
+             "defense": 78,
+             "spAttack": 109,
+             "spDefense": 85,
+             "speed": 100,
+             "total": 534
+          },
+          {
+             "name": "Squirtle",
+             "type": "Water",
+             "hp": 44,
+             "attack": 48,
+             "defense": 65,
+             "spAttack": 50,
+             "spDefense": 64,
+             "speed": 43,
+             "total": 314
+          },
+          {
+             "name": "Wartortle",
+             "type": "Water",
+             "hp": 59,
+             "attack": 63,
+             "defense": 80,
+             "spAttack": 65,
+             "spDefense": 80,
+             "speed": 58,
+             "total": 405
+          },
+          {
+             "name": "Blastoise",
+             "type": "Water",
+             "hp": 79,
+             "attack": 83,
+             "defense": 100,
+             "spAttack": 85,
+             "spDefense": 105,
+             "speed": 78,
+             "total": 530
+          },
+          {
+             "name": "Caterpie",
+             "type": "Bug",
+             "hp": 45,
+             "attack": 30,
+             "defense": 35,
+             "spAttack": 20,
+             "spDefense": 20,
+             "speed": 45,
+             "total": 195
+          }
+       ]
+    }
+    
+    const tableContent = document.getElementById("table-content")
+    const tableButtons = document.querySelectorAll("th button");
+    
+    const createRow = (obj) => {
+      const row = document.createElement("tr");
+      const anchor = document.createElement("a");
+      
+      const objKeys = Object.keys(obj);
+      objKeys.map((key) => {
+        const cell = document.createElement("td");
+        cell.setAttribute("data-attr", key);
+        cell.innerHTML = obj[key];
+        row.appendChild(cell);
+        
+      });
+      return row;
+    };
+    
+    const getTableContent = (data) => {
+      data.map((obj) => {
+        const row = createRow(obj);
+        row.href = "http://google.com"
+        tableContent.appendChild(row);
+      });
+    };
+    
+    const sortData = (data, param, direction = "asc") => {
+        tableContent.innerHTML = '';
+      const sortedData =
+        direction == "asc"
+          ? [...data].sort(function (a, b) {
+                if (a[param] < b[param]) {
+                return -1;
+              }
+              if (a[param] > b[param]) {
+                return 1;
+              }
+              return 0;
+            })
+          : [...data].sort(function (a, b) {
+              if (b[param] < a[param]) {
+                return -1;
+              }
+              if (b[param] > a[param]) {
+                return 1;
+              }
+              return 0;
+            });
+    
+      getTableContent(sortedData);
+    };
+    
+    const resetButtons = (event) => {
+      [...tableButtons].map((button) => {
+        if (button !== event.target) {
+          button.removeAttribute("data-dir");
+        }
+      });
+    };
+    
+    window.addEventListener("load", () => {
+        var response
+        const requestUrl = 'http://localhost:3000/todo';
+        fetch(requestUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("dataa",data);
+            response = data  
+            getTableContent(response.toDoTasks);
+    
+        [...tableButtons].map((button) => {
+        button.addEventListener("click", (e) => {
+          resetButtons(e);
+          if (e.target.getAttribute("data-dir") == "desc") {
+            sortData(response.toDoTasks, e.target.id, "desc");
+            e.target.setAttribute("data-dir", "asc");
+          } else {
+            sortData(response.toDoTasks, e.target.id, "asc");
+            e.target.setAttribute("data-dir", "desc");
+          }
+        });
+      });      
+     }) 
+      
+    });
+    
+    </script>
+    
